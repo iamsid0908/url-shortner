@@ -31,6 +31,7 @@ async function userLogin(param: UserLoginReqs): Promise<UserLoginResp> {
   const payload = {
     id: user?._id,
   };
+  console.log(payload);
   var accessToken = jwt.sign(
     payload,
     process.env.SECRET_KEY || "default_secret_key",

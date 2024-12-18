@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 const app = express();
 require("dotenv").config();
 import cors from "cors";
@@ -8,9 +8,7 @@ import { globalErrorHandler } from "./utils/globalError";
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/v1", globalRoutes);
-
 app.use(globalErrorHandler);
 
 app.listen(process.env.PORT, () => {

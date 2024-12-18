@@ -1,15 +1,13 @@
 import mongoose, { Schema, Model, isValidObjectId } from "mongoose";
 import { Types } from "mongoose";
 
-export interface IUrl extends Document {
+export interface IUrl {
   shortId: string;
   topic: string;
   redirectURL: string;
   userID: Types.ObjectId;
   createdAt?: Date;
-  updatedAt?: Date;
 }
-
 const UrlSchema: Schema<IUrl> = new Schema(
   {
     shortId: {
