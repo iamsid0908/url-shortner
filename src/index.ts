@@ -5,6 +5,7 @@ import cors from "cors";
 import { connectMongo } from "./db";
 import globalRoutes from "./routes";
 import { globalErrorHandler } from "./utils/globalError";
+import { Redis } from "ioredis";
 
 app.use(cors());
 app.use(express.json());

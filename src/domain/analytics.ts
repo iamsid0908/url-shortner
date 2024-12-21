@@ -20,8 +20,8 @@ async function Insert(params: IAnalytic) {
   return await newDoc.save();
 }
 
-//updating os type
 async function UpdateOS(params: IAnalytic, existingDoc: any) {
+  //updating os type
   const updatedOsTypes = params.osType.map((incomingOs) => {
     const existingOs = existingDoc.osType.find(
       (os: OsType) => os.osName === incomingOs.osName
@@ -67,7 +67,7 @@ async function UpdateOS(params: IAnalytic, existingDoc: any) {
         existingDate.clickCount += incomingDate.clickCount;
       }
     } else {
-      existingDoc.data.push(incomingDate);
+      existingDoc.clicksByDate.push(incomingDate);
     }
     return existingDate || incomingDate;
   });

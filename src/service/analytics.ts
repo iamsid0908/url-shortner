@@ -14,6 +14,9 @@ import {
 import URLModel from "../models/urlShortner";
 import AnalyticsModel from "../models/analytics";
 
+import Redis from "ioredis";
+const redis = new Redis();
+
 async function GetAnyticsofAlias(
   params: string
 ): Promise<AnalyticInterfaceResp> {
@@ -52,6 +55,15 @@ async function GetAnyticsofAlias(
 async function GetAnayticsByTopic(
   params: GetAnayticsByTopicReqs
 ): Promise<GetAnayticsByTopicResp> {
+  const { topic, userID } = params;
+  const cacheKey = `analytics:${userID}:${topic}`;
+
+  // Try fetching the data from Redis
+  const cachedData = await redis.get(cacheKey);
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
+
   const data = await shortUrlDomain.GetAnayticsByTopic(params);
   const ids: IdList[] = data.map(
     (item: { _id: Types.ObjectId; shortId: string }) => ({
@@ -99,6 +111,7 @@ async function GetAnayticsByTopic(
       uniqueClicks: item.uniqueClicks.length,
     });
   });
+  await redis.set(cacheKey, JSON.stringify(response), "EX", 600);
 
   return response;
 }
@@ -106,6 +119,13 @@ async function GetAnayticsByTopic(
 async function GetOverAllAnalytics(
   userID: Types.ObjectId
 ): Promise<OverAllAnalyticsResp> {
+  const cacheKey = `overall:${userID}`;
+
+  // Try fetching the data from Redis
+  const cachedData = await redis.get(cacheKey);
+  if (cachedData) {
+    return JSON.parse(cachedData);
+  }
   const data = await shortUrlDomain.GetUrlListByYUserId(userID);
   const ids: IdList[] = data.map((item: { _id: Types.ObjectId }) => ({
     _id: item._id,
@@ -198,6 +218,7 @@ async function GetOverAllAnalytics(
     },
     []
   );
+  await redis.set(cacheKey, JSON.stringify(response), "EX", 600);
 
   return response;
 }
