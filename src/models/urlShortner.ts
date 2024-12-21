@@ -2,6 +2,7 @@ import mongoose, { Schema, Model, isValidObjectId } from "mongoose";
 import { Types } from "mongoose";
 
 export interface IUrl {
+  _id?: Types.ObjectId;
   shortId: string;
   topic: string;
   redirectURL: string;
@@ -10,6 +11,10 @@ export interface IUrl {
 }
 const UrlSchema: Schema<IUrl> = new Schema(
   {
+    _id: {
+      type: Schema.Types.ObjectId,
+      auto: true,
+    },
     shortId: {
       type: String,
       required: true,

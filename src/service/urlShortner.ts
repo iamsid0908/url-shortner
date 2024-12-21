@@ -8,7 +8,8 @@ import { IUrl } from "../models/urlShortner";
 import { ObjectId, Types } from "mongoose";
 import { shortUrlDomain } from "../domain/urlShortner";
 import { getOsDetails } from "../utils/constant";
-import { IAnalytic } from "../models/analytics";
+import AnalyticsModel, { IAnalytic } from "../models/analytics";
+import { analyticsDomain } from "../domain/analytics";
 
 async function handleCreateShortUrl(
   params: CreateShortUrlReqs
@@ -37,26 +38,37 @@ async function handleRedirectShortUrl(params: string) {
   const osDetails = await getOsDetails();
 
   const useParams: IAnalytic = {
-    totalClicks: [Date.now()],
+    totalClicks: 1,
     urlShortnerID: data?.id,
     uniqueClicks: [osDetails?.ip],
     clicksByDate: [
       {
-        date: new Date(),
+        date: new Date().toISOString().split("T")[0],
         clickCount: 1,
       },
     ],
     osType: [
       {
         osName: `${osDetails.os}`,
-        uniqueClicks: 1,
-        uniqueUsers: 1,
+        uniqueClicks: [osDetails?.ip],
+        uniqueUsers: [osDetails?.ip],
       },
     ],
-    deviceType: [],
+    deviceType: [
+      {
+        deviceName: `${osDetails.devicetype}`,
+        uniqueClicks: [osDetails?.ip],
+        uniqueUsers: [osDetails?.ip],
+      },
+    ],
   };
 
-  console.log("Analytics Data:", useParams);
+  const existingDoc = await analyticsDomain.FindOne(useParams);
+  if (existingDoc) {
+    const updateOS = await analyticsDomain.UpdateOS(useParams, existingDoc);
+  } else {
+    const insert = await analyticsDomain.Insert(useParams);
+  }
 
   return data;
 }

@@ -3,22 +3,22 @@ import AutoIncrementFactory from "mongoose-sequence";
 
 export interface IAnalytic {
   _id?: Types.ObjectId;
-  totalClicks: number[];
+  totalClicks: number;
   uniqueClicks: string[];
   urlShortnerID: Types.ObjectId;
-  clicksByDate: {
-    date: Date;
-    clickCount: number;
+  clicksByDate?: {
+    date?: string;
+    clickCount?: number;
   }[];
   osType: {
     osName: string;
-    uniqueClicks: number;
-    uniqueUsers: number;
+    uniqueClicks: string[];
+    uniqueUsers: string[];
   }[];
-  deviceType?: {
-    deviceName?: string;
-    uniqueClicks?: number;
-    uniqueUsers?: number;
+  deviceType: {
+    deviceName: string;
+    uniqueClicks: string[];
+    uniqueUsers: string[];
   }[];
 }
 
@@ -28,7 +28,7 @@ const AnalyticSchema: Schema = new Schema({
     auto: true,
   },
   totalClicks: {
-    type: [Number],
+    type: Number,
     required: true,
   },
   uniqueClicks: {
@@ -42,22 +42,22 @@ const AnalyticSchema: Schema = new Schema({
   },
   clicksByDate: [
     {
-      date: { type: Date, required: true },
-      clickCount: { type: Number, required: true },
+      date: { type: String },
+      clickCount: { type: Number },
     },
   ],
   osType: [
     {
       osName: { type: String, required: true },
-      uniqueClicks: { type: Number, required: true },
-      uniqueUsers: { type: Number, required: true },
+      uniqueClicks: { type: [String], required: true },
+      uniqueUsers: { type: [String], required: true },
     },
   ],
   deviceType: [
     {
       deviceName: { type: String },
-      uniqueClicks: { type: Number },
-      uniqueUsers: { type: Number },
+      uniqueClicks: { type: [String] },
+      uniqueUsers: { type: [String] },
     },
   ],
 });
