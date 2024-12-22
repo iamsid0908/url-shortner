@@ -6,6 +6,7 @@ import {
 } from "../interface/auth";
 import { authService } from "../service/auth";
 import { ObjectId } from "mongoose";
+import { AuthRequest } from "../middleware/auth";
 
 export async function userRegister(
   req: Request,
@@ -56,3 +57,22 @@ export async function userLoginHandler(
 
   return res.status(201).json(response);
 }
+
+export const loadAuth = (req: Request, res: Response) => {
+  res.render("auth");
+};
+
+export const successGoogleLogin = async (req: AuthRequest, res: Response) => {
+  if (req.user) {
+    res.status(200).json({
+      message: "Login successful",
+      user: req.user,
+    });
+  } else {
+    res.status(401).json({ message: "Unauthorized" });
+  }
+};
+
+export const failureGoogleLogin = async (req: AuthRequest, res: Response) => {
+  res.send("Error");
+};

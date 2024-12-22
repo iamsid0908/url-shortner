@@ -6,6 +6,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  googleId?: string;
 }
 
 const UserSchema: Schema = new Schema({
@@ -26,11 +27,23 @@ const UserSchema: Schema = new Schema({
     type: String,
     require: true,
   },
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true,
+  },
   creatdAt: {
     type: Date,
     default: Date.now,
   },
 });
+UserSchema.statics.findOrCreate = async function (condition: Partial<IUser>) {
+  let user = await this.findOne(condition);
+  if (!user) {
+    user = await this.create(condition);
+  }
+  return user;
+};
 
 const User: Model<IUser> = mongoose.model<IUser>("User", UserSchema);
 export default User;

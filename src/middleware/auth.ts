@@ -18,12 +18,12 @@ export const verifyToken = async (
 
     try {
       const payload: any = jwt.verify(token, `${process.env.SECRET_KEY}`);
-      const user = await User.findById(payload.id);
+      const user = await User.findById(payload.id).lean();
       if (!user) {
         return res.status(404).send({ message: "User not found" });
       }
 
-      req.user = user;
+      req.user = user as IUser;
       next();
     } catch (err) {
       return res
