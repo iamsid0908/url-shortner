@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 const app = express();
 require("dotenv").config();
 import cors from "cors";
@@ -15,7 +15,7 @@ app.use(
   session({
     resave: false,
     saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SECRET_KEY,
   })
 );
 

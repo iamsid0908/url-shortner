@@ -69,6 +69,7 @@ async function handleRedirectShortUrl(params: string) {
   } else {
     const insert = await analyticsDomain.Insert(useParams);
   }
+  console.log(useParams);
 
   return data;
 }
