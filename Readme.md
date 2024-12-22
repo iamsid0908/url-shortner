@@ -17,6 +17,7 @@ A URL Shortener backend project designed to generate compact, unique short URLs 
 - MongoDB
 - Mongoose (ODM for MongoDB)
 - Nodemon (for development)
+- Redis
 
 This stack ensures a robust, scalable, and type-safe backend with efficient database operations.
 
@@ -33,11 +34,11 @@ This stack ensures a robust, scalable, and type-safe backend with efficient data
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/iamsid0908/url-shortner.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd <project-folder>
+   cd alter
    ```
 3. Install dependencies:
    ```bash
@@ -82,3 +83,7 @@ This stack ensures a robust, scalable, and type-safe backend with efficient data
        ]
      }
      ```
+
+## Documentation
+
+For detailed API documentation, visit the Postman collection: [Postman Documentation](https://documenter.getpostman.com/view/20703683/2sAYJ3Fgsy)
