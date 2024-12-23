@@ -2,7 +2,7 @@ import express from "express";
 const app = express();
 require("dotenv").config();
 import cors from "cors";
-import { connectMongo } from "./db";
+import { connectMongo, redis } from "./db";
 import globalRoutes from "./routes";
 import { globalErrorHandler } from "./utils/globalError";
 import { Redis } from "ioredis";
@@ -26,4 +26,5 @@ app.use(globalErrorHandler);
 app.listen(process.env.PORT, () => {
   console.log("server is running at port http://localhost:" + process.env.PORT);
   connectMongo();
+  redis();
 });

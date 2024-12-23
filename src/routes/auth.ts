@@ -16,21 +16,21 @@ authRoutes.use(passport.session());
 
 authRoutes.post("/register", handleError(userRegister));
 authRoutes.post("/login", handleError(userLoginHandler));
-// authRoutes.get(
-//   "/auth/google",
-//   passport.authenticate("google", { scope: ["email", "profile"] })
-// );
+authRoutes.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
 
-// authRoutes.get(
-//   "/auth/google/callback",
-//   passport.authenticate("google", {
-//     successRedirect: "/success",
-//     failureRedirect: "/failure",
-//   })
-// );
+authRoutes.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/success",
+    failureRedirect: "/failure",
+  })
+);
 
-// authRoutes.get("/success", handleError(successGoogleLogin));
+authRoutes.get("/success", handleError(successGoogleLogin));
 
-// authRoutes.get("/failure", handleError(failureGoogleLogin));
+authRoutes.get("/failure", handleError(failureGoogleLogin));
 
 export default authRoutes;
